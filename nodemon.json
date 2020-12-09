@@ -1,3 +1,6 @@
 {
-  "watch": ["src/server/"]
+  "verbose": true,
+  "watch": [
+    "./src/*"
+  ]
 }

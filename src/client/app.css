@@ -1,8 +1,19 @@
 h1 {
-  color: green;
+  color: #4372AA;
 }
 
 body {
+  display: flex;
+  flex-direction: column;
   text-align: center;
   margin: auto;
+}
+
+.content {
+  flex: 1 0 auto;
+  min-height: 850px;
+}
+
+.footer {
+  flex-shrink: 0;
 }
