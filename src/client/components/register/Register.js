@@ -6,6 +6,7 @@ import { blue } from '@material-ui/core/colors';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { useKeycloak } from '@react-keycloak/web';
+import { createStudent } from '../../../api/profiles';
 
 
 const theme = createMuiTheme({ palette: { type: 'light', primary: blue } });
@@ -81,14 +82,45 @@ export default function Register() {
   const classes = useStyles();
   const [year, setYears] = React.useState('Freshman');
   const [school, setSchool] = React.useState('Stanford');
+  const [fname, setFname] = React.useState('John');
+  const [lname, setLname] = React.useState('Doe');
+  const [email, setEmail] = React.useState('john.doe@sjsu.edu');
+  const [url, setUrl] = React.useState('https://source.unsplash.com/user/erondu/600x400');
   const title = 'CREATE YOUR PROFILE';
+  const userObj = {};
+  let userCreated = false;
 
-  const handleChange = (event) => {
+  const handleYear = (event) => {
     setYears(event.target.value);
   };
 
   const handleSchoolChange = (event) => {
     setSchool(event.target.value);
+  };
+
+  const handleFirstName = (event) => {
+    setFname(event.target.value);
+  };
+
+  const handleLastName = (event) => {
+    setLname(event.target.value);
+  };
+
+  const handleEmail = (event) => {
+    setEmail(event.target.value);
+  };
+
+  const handleUrl = (event) => {
+    setUrl(event.target.value);
+  };
+
+  const handleSignUp = async () => {
+    userObj.firstname = fname;
+    userObj.lastname = lname;
+    userObj.email = email;
+    userObj.school = school;
+    userObj.Url = url;
+    if (await createStudent(userObj)) userCreated = true;
   };
 
   const { keycloak } = useKeycloak();
@@ -99,9 +131,10 @@ export default function Register() {
     keycloak.logout();
   };
 
+
   return (
     <>
-      <div><h1 style={{ color: 'black', fontSize: '50px' }}> { title } </h1></div>
+      <div><h1 style={{ color: 'black', fontSize: '50px' }}> { userCreated ? 'USER CREATED' : title } </h1></div>
       <Card style={{ padding: '20px' }}>
         <MuiThemeProvider theme={theme}>
           <div
@@ -118,6 +151,7 @@ export default function Register() {
                   label="First Name"
                   style={{ margin: 8, width: 500 }}
                   margin="normal"
+                  onChange={handleFirstName}
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -129,6 +163,7 @@ export default function Register() {
                   style={{ margin: 8, width: 500 }}
                   fullWidth
                   margin="normal"
+                  onChange={handleLastName}
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -140,6 +175,7 @@ export default function Register() {
                   style={{ margin: 8, width: 500 }}
                   fullWidth
                   margin="normal"
+                  onChange={handleEmail}
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -181,7 +217,7 @@ export default function Register() {
                     label="Year"
                     style={{ margin: 8 }}
                     value={year}
-                    onChange={handleChange}
+                    onChange={handleYear}
                     SelectProps={{
                       native: true,
                     }}
@@ -200,6 +236,7 @@ export default function Register() {
                   style={{ margin: 8, width: 500 }}
                   fullWidth
                   margin="normal"
+                  onChange={handleUrl}
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -209,6 +246,7 @@ export default function Register() {
                   variant="contained"
                   color="primary"
                   style={{ margin: 8, width: 300, height: 50 }}
+                  onClick={handleSignUp}
                 >
                   Sign Up
                 </Button>

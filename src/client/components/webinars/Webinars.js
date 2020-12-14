@@ -7,6 +7,7 @@
 /* eslint-disable react/prefer-stateless-function */
 
 import React from 'react';
+import { useKeycloak } from '@react-keycloak/web';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -72,13 +73,21 @@ export default function CareerFairs() {
   const careerFairName = 'EECS Career Fair';
   const title = careerFairName.concat(' - ', 'Webinars').toUpperCase();
 
+  const { keycloak } = useKeycloak();
+
   const handleCreateWebinars = () => {
     console.log('Redirecting...');
     window.location.href = '/create-webinars';
   };
 
+  const handleLogout = () => {
+    keycloak.logout();
+  };
+
   return (
     <>
+      {keycloak.hasRealmRole('recruiter')
+      && (
       <Button
         variant="contained"
         color="primary"
@@ -87,6 +96,7 @@ export default function CareerFairs() {
       >
         Create Webinars
       </Button>
+      )}
       <div><h1 style={{ color: 'black', fontSize: '50px' }}> { title } </h1></div>
       <Grid container flexGrow="1" spacing={2} style={{ marginLeft: '20px', padding: '10px' }}>
         <div style={{ padding: '10px' }}><h1 style={{ marginLeft: '20px' }}> My Webinars </h1></div>

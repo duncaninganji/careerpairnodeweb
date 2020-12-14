@@ -41,7 +41,7 @@ const App = () => {
         <div className="content">
           <Switch>
             <Route exact path="/login" component={Login} />
-            <PrivateRoute roles={['student', 'recruiter']} exact path="/home" component={CareerFairs} />
+            <PrivateRoute roles={['student', 'recruiter']} exact path="/" component={CareerFairs} />
             <PrivateRoute roles={['student', 'recruiter']} path="/register" component={Register} />
             <PrivateRoute roles={['student']} path="/companies" component={Companies} />
             <PrivateRoute roles={['student', 'recruiter']} path="/webinars" component={Webinars} />
